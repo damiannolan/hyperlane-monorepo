@@ -6,7 +6,7 @@ import {IPostDispatchHook} from "../interfaces/hooks/IPostDispatchHook.sol";
 import {Indexed} from "../libs/Indexed.sol";
 import {Message} from "../libs/Message.sol";
 
-contract StorageMapHook is IPostDispatchHook, MailboxClient, Indexed {
+contract MapStorageHook is IPostDispatchHook, MailboxClient, Indexed {
     using Message for bytes;
 
     // Tracks seen message IDs.
@@ -19,7 +19,7 @@ contract StorageMapHook is IPostDispatchHook, MailboxClient, Indexed {
 
     /// @inheritdoc IPostDispatchHook
     function hookType() external pure override returns (uint8) {
-        return uint8(IPostDispatchHook.Types.STORAGE_MAP_HOOK);
+        return uint8(IPostDispatchHook.Types.MAP_STORAGE_HOOK);
     }
 
     /// @inheritdoc IPostDispatchHook
@@ -34,7 +34,7 @@ contract StorageMapHook is IPostDispatchHook, MailboxClient, Indexed {
         bytes calldata,
         bytes calldata message
     ) external payable override {
-        require(msg.value == 0, "StorageMapHook: no value expected");
+        require(msg.value == 0, "MapStorageHook: no value expected");
 
         bytes32 id = message.id();
 

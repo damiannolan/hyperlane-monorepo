@@ -30,7 +30,7 @@ interface IPostDispatchHook {
         OP_L2_TO_L1,
         MAILBOX_DEFAULT_HOOK,
         AMOUNT_ROUTING,
-        STORAGE_MAP_HOOK
+        MAP_STORAGE_HOOK
     }
 
     /**

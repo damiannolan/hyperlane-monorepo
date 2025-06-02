@@ -9,12 +9,13 @@ import {Message} from "../libs/Message.sol";
 contract MapStorageHook is IPostDispatchHook, MailboxClient, Indexed {
     using Message for bytes;
 
-    // Tracks seen message IDs.
+    // Simple map storage: (message id -> bool)
     mapping(bytes32 => bool) internal _store;
 
-    // Event emitted when a message is stored
+    // Event emitted when a message id is stored
     event MessageStored(bytes32 indexed id, bytes message);
 
+    // MailBoxClient is used to call into _isLatestDispatched
     constructor(address _mailbox) MailboxClient(_mailbox) {}
 
     /// @inheritdoc IPostDispatchHook
@@ -38,7 +39,8 @@ contract MapStorageHook is IPostDispatchHook, MailboxClient, Indexed {
 
         bytes32 id = message.id();
 
-        require(!_store[id], "Message already stored");
+        // ensure the message is not already stored and is the latest mailbox msg
+        require(!_store[id], "message already stored");
         require(_isLatestDispatched(id), "message not dispatching");
 
         _store[id] = true;

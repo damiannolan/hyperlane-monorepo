@@ -55,4 +55,10 @@ contract MapStorageHook is IPostDispatchHook, MailboxClient, Indexed {
     ) external pure override returns (uint256) {
         return 0;
     }
+
+    /// @notice Returns true if the given message ID has been stored
+    /// @param id The message ID (bytes32)
+    function hasMessageId(bytes32 id) external view returns (bool) {
+        return _store[id];
+    }
 }
